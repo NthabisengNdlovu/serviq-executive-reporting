@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SERVIQ Executive Reporting - PDF Sprint Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nav"><div style="display:flex;gap:10px;align-items:center"><span class="mark">S</span><b>SERVIQ Executive Reporting</b><span class="badge">Week 3 Sprint 2 • PDF Sprint Deck</span></div><div><span class="badge">Live • IT/HR/Finance/Ops • No Channel</span></div></div>
+
+<div class="filters">
+<select id="f-dept" class="select"><option value="all">All Departments</option><option>IT</option><option>HR</option><option>Finance</option><option>Operations</option></select>
+<select id="f-type" class="select"><option>Weekly</option><option>Monthly</option><option>Quarterly</option></select>
+<select id="f-range" class="select"><option value="14">Last 14 days</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="all">All time</option></select>
+<button id="gen" type="button" class="btn primary">⚡ Generate Report</button>
+<button id="pdfBtn" type="button" class="btn pdf" data-pdf="current" style="position:relative;z-index:6;pointer-events:auto">📄 Download PDF (selected department)</button>
+</div>
+<div class="dl-row" id="dlRow">
+<span class="hint">Download PDF by department:</span>
+<button type="button" class="btn dept it" data-pdf="IT">📄 IT</button>
+<button type="button" class="btn dept hr" data-pdf="HR">📄 HR</button>
+<button type="button" class="btn dept fin" data-pdf="Finance">📄 Finance</button>
+<button type="button" class="btn dept ops" data-pdf="Operations">📄 Operations</button>
+<button type="button" class="btn dept all" data-pdf="All">📄 All Departments</button>
+</div>
+<div id="pdfStatus" class="hint" role="status" aria-live="polite" style="margin:-4px 20px 10px;min-height:14px"></div>
+
+<div class="kpis">
+<div class="card kpi"><div class="hint">Total Tickets</div><b id="k-total">0</b><div class="hint" id="k-delta"></div></div>
+<div class="card kpi"><div class="hint">Avg Response</div><b id="k-avg">0m</b><div class="hint">Median <span id="k-med">0m</span></div></div>
+<div class="card kpi"><div class="hint">SLA Compliance</div><b id="k-sla">0%</b><div class="hint"><span id="k-sla-c">0</span> breached</div></div>
+<div class="card kpi"><div class="hint">Top Category</div><b id="k-top">-</b><div class="hint" id="k-top-c"></div></div>
+<div class="card kpi"><div class="hint">Resolution Rate</div><b id="k-res">0%</b><div class="hint" id="k-res-c"></div></div>
+</div>
+
+<div class="grid">
+<div class="card"><h3>📈 Volume Trend — With Grid Lines & Visible Labels</h3><canvas id="vol" height="260"></canvas></div>
+<div class="card"><h3>🍩 Category Breakdown — IT/HR/Finance/Operations Only</h3><canvas id="cat" height="260"></canvas><div id="catL" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div></div>
+</div>
+<div class="grid">
+<div class="card"><h3>⏱️ Response Time Distribution</h3><canvas id="resp" height="260"></canvas></div>
+<div class="card"><h3>📋 Status Pipeline</h3><div id="status"></div></div>
+</div>
+
+<div class="card" id="execReport">
+<h2>📋 Executive Report — Auto-generated from Tracking</h2>
+<div class="hint">Generated <span id="genTime"></span> • Department: <span id="genDept">All</span> • Period: <span id="genPeriod">Last 14 days</span> • Prompted with Meta AI</div>
+<div id="execSummary" style="margin-top:14px;line-height:1.6"></div>
+<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+<button id="csv" class="btn">⬇️ CSV (Dept Filtered)</button>
+<button id="json" class="btn">⬇️ JSON (Dept Filtered)</button>
+<button id="txt" class="btn">⬇️ Executive TXT (Dept Filtered)</button>
+</div>
+</div>
+
+<div class="card">
+<h2>🎬 Sprint Presentation Deck — 6 Slides (What goes into PDF)</h2>
+<div class="hint">Each slide includes visuals. Click PDF button to download with charts as images.</div>
+<div class="slide-deck" id="deck">
+<div class="slide"><span class="slide-num">01 / 06 — Title</span><h2>SERVIQ Executive Reporting</h2><h3>Week 3 – Sprint 2: Data Tracking & Analytics Module</h3><p><b>Sprint Goal:</b> Introduce data monitoring<br><b>Feature Built:</b> Analytics & Tracking Dashboard<br><b>Candidates:</b> Store ticket data structured, Analyse trends (volume/categories/response), Build visual dashboard, Generate weekly summary insights<br><b>Outcome:</b> Platform now produces measurable business insights<br><b>Mapped Roles:</b> Junior Data Analyst, Reporting Assistant, AI Intern<br><b>Grading:</b> Technical 60% Effective prompts, Professional 40% Content relevance</p><div style="margin-top:12px"><span class="badge it">IT</span> <span class="badge hr">HR</span> <span class="badge fin">Finance</span> <span class="badge ops">Operations</span> <span class="badge">No Channel</span></div></div>
+<div class="slide"><span class="slide-num">02 / 06 — KPIs</span><h2>Executive Summary & KPIs</h2><div id="s2"></div></div>
+<div class="slide"><span class="slide-num">03 / 06 — Volume</span><h2>Volume Trends — Grid Lines Visible</h2><div id="s3"></div></div>
+<div class="slide"><span class="slide-num">04 / 06 — Categories</span><h2>Category & Response Analysis</h2><div id="s4"></div></div>
+<div class="slide"><span class="slide-num">05 / 06 — Insights</span><h2>Insights, Recommendations & Risks</h2><div id="s5"></div></div>
+<div class="slide"><span class="slide-num">06 / 06 — Deep Dive</span><h2>Department Deep Dive & Next Steps</h2><div id="s6"></div></div>
+</div>
+</div>
+
+<div class="card" id="fullDataSection"><h3>📦 Structured Ticket Data — As Received (Full Record)</h3><p class="hint">This is the exact structured data shown at bottom — Title, Category, SubCategory, Department, Priority, Status, Assignee, Requester, Email, FirstResponseMins, CreatedAt, Description — filtered by department. Included in PDF.</p><div style="overflow:auto"><table id="fullTable"><thead><tr><th>Title</th><th>Category</th><th>SubCategory</th><th>Department</th><th>Priority</th><th>Status</th><th>Assignee</th><th>Requester</th><th>Email</th><th>Response</th><th>CreatedAt</th><th>Description</th></tr></thead><tbody id="fullTbody"></tbody></table></div></div>
+<div class="card"><h3>Department Tickets (Filtered for PDF)</h3><div style="overflow:auto"><table><thead><tr><th>Title</th><th>Category</th><th>Dept</th><th>Priority</th><th>Status</th><th>Response</th><th>Created</th></tr></thead><tbody id="tbody"></tbody></table></div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
