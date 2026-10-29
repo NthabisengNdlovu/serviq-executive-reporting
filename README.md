@@ -18,5 +18,6 @@ Responsible for ticket classification and the visual side of the dashboard. This
 Adriyell
 
 Integration and PDF Presentation 
+
 Responsible for bringing the parts together and producing the PDF. This covers connecting the data, charts and summary into the six-slide PDF presentation with the ticket data table, the department download buttons, testing the downloads for each department, and publishing the project to GitHub.
  
